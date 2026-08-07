@@ -1,0 +1,3 @@
+join_복습용. txt
+ - 고객 : 주문-주문상세-제품 erd를 보고 테이블의 구조와 관계를 설명하도록 복습용으로 만든 것.
+ - erd위치 : C:\Users\kgmyh\OneDrive\문서\01 수업 PPT\02_과목별 강의 자료\02 JDBC_SQL\02_UML_EXERD 백업\eXERD_Workspace\SQL_수업용_ERD\JOIN_item_order_customer.exerd      

@@ -1,0 +1,17 @@
+- 테이블 생성 쿼리(DDL) 조회
+	SHOW CREATE TABLE 테이블명;
+	
+- 제약조건 조회 (
+	- 참고 : https://luran.me/282
+	select * from information_schema.table_constraints where table_name='테이블명'
+	select * from information_schema.table_constraints where table_schema='DB명'
+	
+	- 혹시 안되면 
+		use information_schema
+		한뒤 조회
+		
+- foreigh key 체크 해지/시작
+	 set foreign_key_checks=0; 해지 
+	 set foreign_key_checks=1; 시작 
+	 
+	 - 해지하면 부모에 없는 값도 insert되고 부모테이블도 참조관계없이 지워진다.(mysql은 drop table 부모 cascade constraints 하지 않고 설정을 바꾸고 해야 한다. )

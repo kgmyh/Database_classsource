@@ -1,0 +1,132 @@
+/*
+1. 제품 테이블은 제품_ID 컬럼이 ___Primary Key(PK)___ 컬럼으로 그 행을 다른 행과 식별할 때 사용된다.
+2. 제품 테이블의 제조사 컬럼은 Not Null(NN) 인 것으로 봐서 __NULL(값없는)_ 인 상태일 수가 없다.
+3. 고객 테이블에서 다른행과 식별할 때 사용하는 컬럼은 ____고객_ID(cust_id)_____ 이다. 
+4. 고객 테이블의 전화번호 컬럼의 데이터 타입은 ___varchar2(15)__ 으로 ____문자열_형태의 값 _15_글자(수)를 저장할 수 있으며 NULL 값을 __허용한다.
+5. 고객 테이블의 가입일 컬럼에 대해 4번 처럼 설명해 보시오.
+6. 주문 테이블은 총 5개 컬럼이 있다. 정수 타입이 _3_개이고 문자열 타입이 _1_개 이고 날짜 타입이 _1________개이다.
+7. 고객 테이블과 주문테이블은 서로 관계가 있는 테이블입니다.
+    부모테이블은 _____고객_______ 이고 자식 테이블은 __주문____이다.
+    부모테이블의 __고객_ID___컬럼을 자식테이블의 ____고객_ID___컬럼이 참조하고 있다.
+    고객테이블의 한행의 데이터는 주문테이블의 ___0 ~ N___ 행과 관계가 있을 수 있다.
+    주문테이블의 한행은 고객테이블의 _______한_______행과 관계가 있을 수 있다.
+8. 주문 테이블과 주문_제품 테이블은 서로 관계가 있는 테이블입니다.
+    부모 테이블은 _____주문_______ 이고 자식 테이블은 _____주문_제품___________이다.
+    부모 테이블의 _____주문_ID_____컬럼을 자식 테이블의 ______주문_ID____컬럼이 참조하고 있다.
+    주문 테이블의 한행의 데이터는 주문_제품 테이블의 ___0~N____ 행과 관계가 있을 수 있다.
+    주문_제품 테이블의 한행은 주문 테이블의 ______1______행과 관계가 있을 수 있다.
+9. 제품과 주문_제품은 서로 관계가 있는 테이블입니다. 
+    부모 테이블은 ____제품_______ 이고 자식 테이블은 _____주문_제품______이다.
+    부모 테이블의 ____제품_ID_______컬럼을 자식 테이블의 ______제품_ID______컬럼이 참조하고 있다.
+    제품 테이블의 한행의 데이터는 주문_제품 테이블의 ____0~N____ 행과 관계가 있을 수 있다.
+    주문_제품 테이블의 한행은 제품 테이블의 ________1__________행과 관계가 있을 수 있다.
+*/
+
+-- TODO: 4개의 테이블에 어떤 값들이 있는지 확인.
+select * from customers;
+select count(*) from products;
+select distinct category from products;
+select * from orders;
+select * from order_items;
+
+-- TODO: 주문 번호가 1인 주문의 주문자 이름, 주소, 우편번호, 전화번호 조회
+select c.cust_name, c.address, c.postal_code, c.phone_number
+from   orders o join customers c on o.cust_id = c.cust_id
+where o.order_id = 1;
+
+-- TODO : 주문 번호가 2인 주문의 주문일, 주문상태, 총금액, 
+--        주문고객 이름, 주문고객 이메일 주소 조회
+select  o.order_date, o.order_status, o.order_total,
+		c.cust_name, c.cust_email
+from   orders o left join customers c on o.cust_id = c.cust_id
+where  o.order_id = 2;
+
+-- TODO : 고객 ID가 120인 고객의 이름, 성별, 가입일과 
+--        지금까지 주문한 주문정보중 주문_ID, 주문일, 총금액을 조회
+select  c.cust_id, 
+		c.cust_name,
+		if(c.gender='M', '남성', '여성') as "gender", 
+        c.join_date, 
+        o.order_id,
+        o.order_date,
+        format(o.order_total, 0) as "order_total"
+from    customers c left join orders o on c.cust_id = o.cust_id
+where   c.cust_id = 120;        
+-- where   c.cust_id = 150;      
+
+
+
+-- TODO : 고객 ID가 110인 고객의 이름, 주소, 전화번호, 
+--        그가 지금까지 주문한 주문정보중 주문_ID, 주문일, 주문상태 조회
+select  c.cust_name, c.address, c.phone_number,
+        o.order_id, o.order_date, o.order_status
+from    customers c left join orders o on c.cust_id = o.cust_id
+where   c.cust_id  = 110;       
+
+-- TODO : 고객 ID가 120인 고객의 정보와 지금까지 주문한 주문정보를 모두 조회.
+select  *
+from    customers c left join orders o on c.cust_id = o.cust_id
+where   c.cust_id = 120;
+-- TODO : 고객 ID가 120인 고객의 이름과  지금까지 주문한 주문정보를 모두 조회
+select  c.cust_name,
+		o.*
+from    customers c left join orders o on c.cust_id = o.cust_id
+where   c.cust_id = 120;
+
+
+
+-- TODO : '2017/11/13'(주문날짜) 에 주문된 주문의 
+--     주문고객의 고객_ID, 이름, 주문상태, 총금액을 조회
+select  c.cust_id, c.cust_name, o.order_status, o.order_total
+from    orders o left join customers c on o.cust_id = c.cust_id
+where   o.order_date = '2017-11-13';
+
+-- TODO : 주문상세 ID가 xxxx(임의의 id)인 주문제품의
+--       제품이름, 판매가격, 제품가격을 조회.
+select  p.product_name, 
+		oi.sell_price as "판매가격",
+        p.price as "제품가격"
+        
+from    order_items oi left join products p on oi.product_id = p.product_id
+where   oi.order_item_id = 1;
+
+-- TODO : 주문 ID가 4인 주문의 -- orders
+ --       주문 고객의 이름, 주소, 우편번호, -- customers
+--  주문일, 주문상태, 총금액, -- orders
+--  주문 제품이름, 제조사, 제품가격, -- products
+--  판매가격, 제품수량을 조회.  -- order_items
+
+select  c.cust_name, c.address, c.postal_code, -- customers
+		o.order_date, o.order_status, o.order_total, -- orders
+        p.product_name, p.maker, p.price, -- product
+        oi.sell_price, oi.quantity -- order_items
+from    orders o left join customers c on o.cust_id = c.cust_id
+			     left join order_items oi on o.order_id = oi.order_id
+				 left join products p on oi.product_id = p.product_id
+where   o.order_id = 4;                 
+
+
+-- TODO : 제품 ID가 200인 제품이 -- order items
+ --  2017년에 (orders) 몇개 주문되었는지 조회.;
+select  sum(quantity) as "총판매개수"
+from    order_items oi join orders o on oi.order_id = o.order_id
+where   year(o.order_date) = 2017
+and     oi.product_id = 200;
+
+-- TODO : 제품분류별 총 주문량을 조회
+select distinct category from products;
+
+select  p.category, 
+		ifnull(sum(oi.quantity), 0) as "총주문개수", 
+        count(oi.product_id) as "주문횟수"
+from    products p left join order_items oi on p.product_id = oi.product_id
+group by p.category
+order by 2 desc;
+
+select *
+from    products p left join order_items oi on p.product_id = oi.product_id;
+
+
+
+
+

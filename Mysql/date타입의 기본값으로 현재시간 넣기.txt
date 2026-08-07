@@ -1,0 +1,3 @@
+타입은 timestamp 여야 하고 defaut current_timestamp를 지정한다.
+
+DateInserted DATETIME DEFAULT CURRENT_TIMESTAMP

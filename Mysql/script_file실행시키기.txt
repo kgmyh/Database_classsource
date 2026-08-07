@@ -1,0 +1,5 @@
+- .sql파일 실행
+mysql> source \home\user\Desktop\test.sql;
+
+- csv import
+https://cotak.tistory.com/63

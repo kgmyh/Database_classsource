@@ -1,0 +1,1 @@
+01 basic select의 where 절에서 in, between은 not in, not between도 같이 작성한다.

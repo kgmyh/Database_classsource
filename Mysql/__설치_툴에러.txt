@@ -1,0 +1,8 @@
+server, workbench 만 설치한다. shell은 설치 안한다. 
+
+오류
+
+- 워크벤치에서  HtmlRenderer.Utils.FontsUtils throw new exception mysql 나는 경우(연결할때 난다.)
+	- 폰트 문제인듯
+	- 아래 스택오버플로 확인 (dll 파일 받아서 워크벤치 설치 경로에 옮기느까 된다.)
+https://stackoverflow.com/questions/32986573/htmlrenderer-utils-fontsutils-throw-new-exception-mysql
