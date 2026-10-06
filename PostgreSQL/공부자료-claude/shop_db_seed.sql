@@ -81,15 +81,21 @@ CREATE TABLE reviews (
 INSERT INTO categories (category_name) VALUES
 ('도서'), ('전자제품'), ('생활용품'), ('식품'), ('의류');
 
+ INSERT INTO products (product_name, category_id, price, stock_quantity) VALUES
+ 
+
 INSERT INTO products (product_name, category_id, price, stock_quantity) VALUES
 ('무선 이어폰', 2, 89000, 45),
+('유선 헤드폰', 2, 42000, 30);
 ('블루투스 키보드', 2, 45000, 20),
 ('스탠드 조명', 3, 32000, 15),
 ('머그컵', 3, 12000, 100),
 ('원두커피 1kg', 4, 18000, 60),
 ('견과류 세트', 4, 25000, 0),
+('블랜딩 차', 4, 32000, 45),
 ('SQL 첫걸음', 1, 22000, 30),
 ('데이터베이스 개론', 1, 27000, 12),
+('파이썬 기초', 1, 25000, 15),
 ('면 티셔츠', 5, 19000, 50),
 ('후드 집업', 5, 42000, 8);
 
